@@ -6,6 +6,7 @@ use App\Repository\BookRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: BookRepository::class)]
+#[ORM\Table(name:'books')]
 class Book
 {
     #[ORM\Id]
@@ -59,9 +60,9 @@ class Book
         return $this->created_at;
     }
 
-    public function setCreatedAt(\DateTimeImmutable $created_at): self
+    public function setCreatedAt(): self
     {
-        $this->created_at = $created_at;
+        $this->created_at = new \DateTimeImmutable('now', new \DateTimeZone('America/Sao_Paulo'));
 
         return $this;
     }
@@ -71,9 +72,9 @@ class Book
         return $this->updated_at;
     }
 
-    public function setUpdatedAt(\DateTimeImmutable $updated_at): self
+    public function setUpdatedAt(): self
     {
-        $this->updated_at = $updated_at;
+        $this->updated_at = new \DateTimeImmutable('now', new \DateTimeZone('America/Sao_Paulo'));
 
         return $this;
     }
