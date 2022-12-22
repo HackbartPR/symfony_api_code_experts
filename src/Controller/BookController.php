@@ -31,6 +31,27 @@ class BookController extends AbstractController
         ]);
     }
 
+    #[Route('/books/{bookId}', name: 'books_update', methods: ['PUT', 'PATCH'])]
+    public function update(int $bookId, BookRepository $bookRepository, Request $request): JsonResponse
+    {
+        $data = $request->request->all();
+
+        $book = $bookRepository->find($bookId);
+
+        if(!$book) throw $this->createNotFoundException();
+
+        $book->setTitle($data['title']);
+        $book->setIsbn($data['isbn']);
+        $book->setUpdatedAt();
+
+        $bookRepository->update($book);
+
+        return $this->json([
+            'message' => 'Book updated successfully',
+            'data' => $book
+        ]);
+    }
+
     #[Route('/books', name:'books_create', methods: ['POST'])]
     public function create(Request $request, BookRepository $bookRepository):JsonResponse
     {
