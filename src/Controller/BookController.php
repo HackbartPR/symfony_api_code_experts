@@ -19,7 +19,7 @@ class BookController extends AbstractController
         ]);
     }
 
-    #[Route('/books/{id}', name: 'books_single', methods: ['GET'])]
+    #[Route('/books/{bookId}', name: 'books_single', methods: ['GET'])]
     public function single(int $bookId, BookRepository $bookRepository):JsonResponse
     {
         $book = $bookRepository->find($bookId);
