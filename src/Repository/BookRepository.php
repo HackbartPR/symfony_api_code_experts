@@ -39,6 +39,13 @@ class BookRepository extends ServiceEntityRepository
         }
     }
 
+    public function update(Book $entity, bool $flush = false): void
+    {
+        if($flush){
+            $this->getEntityManager()->flush();
+        }
+    }
+
 //    /**
 //     * @return Book[] Returns an array of Book objects
 //     */
