@@ -37,4 +37,24 @@ class UserController extends AbstractController
             'data' => $user
         ], 201);
     }
+
+    #[Route('/users/{userId}', name: 'users_update', methods: ['PUT', 'PATCH'])]
+    public function update(int $userId, Request $request, UserRepository $userRepository):JsonResponse
+    {
+        $user = $userRepository->find($userId);
+        if(!$user) throw $this->createNotFoundException();
+
+        $data = $request->request->all();
+
+        $user->setName($data['name']);
+        $user->setEmail($data['email']);
+        $user->setPassword($data['password']);
+
+        $userRepository->update($user, true);
+
+        return $this->json([
+            'message' => 'User updated successfully',
+            'data' => $user
+        ], 200);
+    }
 }

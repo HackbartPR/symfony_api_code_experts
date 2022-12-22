@@ -34,12 +34,11 @@ class BookController extends AbstractController
     #[Route('/books/{bookId}', name: 'books_update', methods: ['PUT', 'PATCH'])]
     public function update(int $bookId, BookRepository $bookRepository, Request $request): JsonResponse
     {
-        $data = $request->request->all();
-
         $book = $bookRepository->find($bookId);
-
         if(!$book) throw $this->createNotFoundException();
 
+        $data = $request->request->all();
+        
         $book->setTitle($data['title']);
         $book->setIsbn($data['isbn']);
         $book->setUpdatedAt();
