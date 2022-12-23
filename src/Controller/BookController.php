@@ -54,7 +54,11 @@ class BookController extends AbstractController
     #[Route('/books', name:'books_create', methods: ['POST'])]
     public function create(Request $request, BookRepository $bookRepository):JsonResponse
     {
-        $data = $request->request->all();
+        if($request->headers->get('Content-Type') === 'application/json'){
+          $data = $request->toArray();
+        } else {
+            $data = $request->request->all();
+        }
 
         $book = new Book();
         $book->setTitle($data['title']);
