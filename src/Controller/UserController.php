@@ -22,8 +22,12 @@ class UserController extends AbstractController
     #[Route('/users', name:'users_create', methods: ['POST'])]
     public function create(Request $request, UserRepository $userRepository):JsonResponse
     {
-        $data = $request->request->all();
-
+        if($request->headers->get('Content-Type') === 'application/json'){
+            $data = $request->toArray();
+        } else {
+            $data = $request->request->all();
+        }
+        
         $user = new User();
         $user->setName($data['name']);
         $user->setEmail($data['email']);
