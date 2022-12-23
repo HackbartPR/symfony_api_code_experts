@@ -57,4 +57,15 @@ class UserController extends AbstractController
             'data' => $user
         ], 200);
     }
+
+    #[Route('/users/{userId}', name: 'users_single', methods: ['GET'])]
+    public function single(int $userId, UserRepository $userRepository): JsonResponse
+    {
+        $user = $userRepository->find($userId);
+        if(!$user) throw $this->createNotFoundException();
+
+        return $this->json([
+            'data' => $user
+        ]);
+    }
 }
