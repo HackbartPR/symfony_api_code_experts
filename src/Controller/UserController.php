@@ -68,4 +68,17 @@ class UserController extends AbstractController
             'data' => $user
         ]);
     }
+
+    #[Route('/users/{userId}', name: 'users_remove', methods: ['DELETE'])]
+    public function remove(int $userId, UserRepository $userRepository):JsonResponse
+    {
+        $user = $userRepository->find($userId);
+        if(!$user) throw $this->createNotFoundException();
+
+        $userRepository->remove($user, true);
+        return $this->json([
+            'message' => 'User deleted successfully',
+            'data' => $user
+        ]);
+    }
 }

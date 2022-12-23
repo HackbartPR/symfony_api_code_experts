@@ -69,4 +69,17 @@ class BookController extends AbstractController
             'data' => $book
         ], 201);
     }
+
+    #[Route('/books/{bookId}', name: 'books_remove', methods: ['DELETE'])]
+    public function remove(int $bookId, BookRepository $bookRepository):JsonResponse
+    {
+        $book = $bookRepository->find($bookId);
+        if(!$book) throw $this->createNotFoundException();
+
+        $bookRepository->remove($book, true);
+        return $this->json([
+            'message' => 'Book deleted successfully',
+            'data' => $book
+        ]);
+    }
 }
